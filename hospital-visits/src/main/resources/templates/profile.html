@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<!--
+HTML page that allows me to
+view information on video via tymeleaf,
+embellishment via the "style.css" class
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>My Profile</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<h1>My Profile</h1>
+
+<div th:if="${param.imageUpdated}">
+    <p class="success">Profile image updated successfully.</p>
+</div>
+
+<div th:if="${param.passwordUpdated}">
+    <p class="success">Password updated successfully.</p>
+</div>
+
+<section class="card">
+    <h2>Account Info</h2>
+    <p><strong>Username:</strong> <span th:text="${user.username}"></span></p>
+    <p><strong>Email:</strong> <span th:text="${user.email}"></span></p>
+    <p><strong>Role:</strong> <span th:text="${user.role}"></span></p>
+    <p><strong>Registered:</strong> <span th:text="${user.registrationDate}"></span></p>
+
+    <div>
+        <strong>Profile image:</strong><br>
+        <img th:if="${user.profileImageUrl != null}" th:src="${user.profileImageUrl}" alt="Profile image" style="max-width:150px; max-height:150px;">
+        <p th:if="${user.profileImageUrl == null}">No image set.</p>
+    </div>
+</section>
+
+<hr>
+
+<section class="card">
+    <h2>Update Profile Image</h2>
+
+    <form th:action="@{/profile/profile-image}" th:object="${imageForm}" method="post">
+        <label>Profile image URL</label><br>
+        <input type="text" th:field="*{profileImageUrl}" style="width: 360px;">
+        <div class="error" th:if="${#fields.hasErrors('profileImageUrl')}" th:errors="*{profileImageUrl}"></div>
+        <br><br>
+        <button type="submit">Update Image</button>
+    </form>
+</section>
+
+<hr>
+
+<section class="card">
+    <h2>Change Password</h2>
+
+    <div class="error" th:if="${passwordError}" th:text="${passwordError}"></div>
+
+    <form th:action="@{/profile/change-password}" th:object="${passwordForm}" method="post">
+        <label>Current password</label><br>
+        <input type="password" th:field="*{currentPassword}">
+        <div class="error" th:if="${#fields.hasErrors('currentPassword')}" th:errors="*{currentPassword}"></div>
+        <br><br>
+
+        <label>New password</label><br>
+        <input type="password" th:field="*{newPassword}">
+        <div class="error" th:if="${#fields.hasErrors('newPassword')}" th:errors="*{newPassword}"></div>
+        <br><br>
+
+        <label>Confirm new password</label><br>
+        <input type="password" th:field="*{confirmNewPassword}">
+        <div class="error" th:if="${#fields.hasErrors('confirmNewPassword')}" th:errors="*{confirmNewPassword}"></div>
+        <br><br>
+
+        <button type="submit">Change Password</button>
+    </form>
+</section>
+
+<p><a th:href="@{/home}">Back to Home</a></p>
+
+</body>
+</html>

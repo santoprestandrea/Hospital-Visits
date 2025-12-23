@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<!--
+HTML page that allows me to
+view information on video via tymeleaf,
+embellishment via the "style.css" class
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Doctor form</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="form-container">
+    <h1 th:text="${doctor.cf == null} ? 'Create doctor' : 'Edit doctor'">Doctor form</h1>
+
+    <form th:action="@{/admin/doctors/save}" th:object="${doctor}" method="post">
+
+        <div class="form-group">
+            <label for="cf">CF</label>
+            <input id="cf" type="text" th:field="*{cf}" th:readonly="${doctor.cf != null}" required/>
+        </div>
+
+        <div class="form-group">
+            <label for="firstName">Name</label>
+            <input id="firstName" type="text" th:field="*{firstName}" required/>
+        </div>
+
+        <div class="form-group">
+            <label for="surname">Surname</label>
+            <input id="surname" type="text" th:field="*{surname}" required/>
+        </div>
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input id="email" type="email" th:field="*{email}"/>
+        </div>
+
+        <div class="form-group">
+            <label for="birthDate">Birth date</label>
+            <input id="birthDate" type="date" th:field="*{birthDate}" required/>
+        </div>
+
+        <div class="form-group">
+            <label for="department">Department</label>
+            <select id="department" th:field="*{department}">
+                <option value="">-- select department --</option>
+                <option th:each="d : ${departments}"
+                        th:value="${d.id}"
+                        th:text="${d.name}"
+                        th:selected="${doctor.department != null and doctor.department.id == d.id}">
+                </option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="specialization">Specialization</label>
+            <select id="specialization" th:field="*{specialization}">
+                <option value="">-- select specialization --</option>
+                <option th:each="s : ${specializations}"
+                        th:value="${s.id}"
+                        th:text="${s.name}"
+                        th:selected="${doctor.specialization != null and doctor.specialization.id == s.id}">
+                </option>
+            </select>
+        </div>
+
+        <!-- MANY-TO-MANY: Clinic Rooms -->
+        <div class="form-group">
+            <label for="rooms">Clinic rooms</label>
+            <select id="rooms" name="roomIds" multiple size="5">
+                <option th:each="r : ${rooms}"
+                        th:value="${r.id}"
+                        th:text="${r.address}"
+                        th:selected="${doctor.clinicRooms.contains(r)}"></option>
+            </select>
+        </div>
+
+        <div class="form-actions">
+            <a th:href="@{/admin/doctors}" class="back-link">Cancel</a>
+            <button type="submit" class="btn">Save</button>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

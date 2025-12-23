@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<!--
+HTML page that allows me to
+view information on video via tymeleaf,
+embellishment via the "style.css" class
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Visit form</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="form-container">
+    <h1 th:text="${visit.id == null} ? 'Create visit' : 'Edit visit'">Visit form</h1>
+
+    <form th:action="@{/admin/visits/save}" th:object="${visit}" method="post">
+        <input type="hidden" th:field="*{id}"/>
+
+        <div class="form-group">
+            <label for="date">Date</label>
+            <input id="date" type="date" th:field="*{date}" required/>
+        </div>
+
+
+        <div class="form-group">
+            <label for="visitType">Visit type</label>
+
+            <select id="visitType" name="visitTypeId" required>
+                <option value="">-- select visit type --</option>
+
+                <option th:each="t : ${visitTypes}"
+                        th:value="${t.id}"
+                        th:text="${t.name}"
+                        th:selected="${visit.visitType != null and visit.visitType.id == t.id}">
+                </option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="doctors">Doctors</label>
+            <select id="doctors" name="doctorCfs" multiple size="5">
+                <option th:each="d : ${doctors}"
+                        th:value="${d.cf}"
+                        th:text="${d.firstName + ' ' + d.surname + ' (' + (d.specialization != null ? d.specialization.name : '—') + ')'}"
+                        th:selected="${visit.doctors.contains(d)}">
+
+                </option>
+
+            </select>
+            <div class="field-hint">Hold CTRL (or CMD on Mac) to select multiple doctors.</div>
+        </div>
+
+        <div class="form-actions">
+            <a th:href="@{/admin/visits}" class="back-link">Cancel</a>
+            <button type="submit" class="btn">Save</button>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

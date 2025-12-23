@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<!--
+HTML page that allows me to
+view information on video via tymeleaf,
+embellishment via the "style.css" class
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>User form</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="form-container">
+    <h1 th:text="${user.id == null} ? 'Create user' : 'Edit user'">User form</h1>
+
+    <form th:action="@{/admin/users/save}" method="post">
+        <input type="hidden" name="id" th:value="${user.id}"/>
+
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input id="username" name="username" type="text"
+                   th:value="${user.username}" required/>
+        </div>
+
+        <div class="form-group">
+            <label for="password">
+                Password
+                <span class="field-hint" th:if="${user.id != null}">
+                    (leave blank to keep current)
+                </span>
+            </label>
+            <input id="password" name="password" type="password"/>
+        </div>
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input id="email" name="email" type="email" th:value="${user.email}" required/>
+        </div>
+
+        <div class="form-group">
+            <label for="profileImageUrl">Profile image URL</label>
+            <input id="profileImageUrl" name="profileImageUrl" type="text" th:value="${user.profileImageUrl}"/>
+        </div>
+
+        <div class="form-group">
+            <label>Registration date</label>
+            <input type="text" th:value="${#temporals.format(user.registrationDate, 'dd/MM/yyyy HH:mm')}" readonly/>
+        </div>
+
+
+        <div class="form-group">
+            <label for="role">Role</label>
+            <select id="role" name="role">
+                <option value="USER" th:selected="${user.role == 'USER'}">USER</option>
+                <option value="ADMIN" th:selected="${user.role == 'ADMIN'}">ADMIN</option>
+            </select>
+        </div>
+
+        <div class="form-group">
+            <label for="patientCf">Linked patient CF (optional)</label>
+            <input id="patientCf" name="patientCf" type="text"
+                   th:value="${user.patient != null ? user.patient.cf : ''}"/>
+        </div>
+
+        <div class="form-actions">
+            <a th:href="@{/admin/users}" class="back-link">Cancel</a>
+            <button type="submit" class="btn">Save</button>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

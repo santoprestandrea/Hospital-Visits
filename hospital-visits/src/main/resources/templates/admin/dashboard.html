@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<!--
+HTML page that allows me to
+view information on video via tymeleaf,
+embellishment via the "style.css" class
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Admin Dashboard</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<h1>Administration Area</h1>
+
+<div class="container">
+    <p>Total users: <strong th:text="${userCount}">0</strong></p>
+    <p>Total patients: <strong th:text="${patientCount}">0</strong></p>
+    <p>Total doctors: <strong th:text="${doctorCount}">0</strong></p>
+    <p>Total clinic rooms: <strong th:text="${roomCount}">0</strong></p>
+    <p>Total visits: <strong th:text="${visitCount}">0</strong></p>
+    <p>Total visits type: <strong th:text="${visitTypeCount}">0</strong> </p>
+</div>
+
+<nav>
+    <ul class="link-dashboard">
+        <div class="admin-links">
+            <li><a th:href="@{/admin/users}">Manage users</a></li>
+            <li><a th:href="@{/admin/patients}">Manage patients</a></li>
+            <li><a th:href="@{/admin/doctors}">Manage doctors</a></li>
+            <li><a th:href="@{/admin/rooms}">Manage clinic rooms</a></li>
+            <li><a th:href="@{/admin/visits}">Manage visits</a></li>
+            <li><a th:href="@{/admin/visit-types}">Manage visit types</a></li>
+
+
+        </div>
+    </ul>
+</nav>
+<div class="logout-button">
+    <a  th:href="@{/}">Back to homepage</a>
+</div>
+
+</body>
+</html>

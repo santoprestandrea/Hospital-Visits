@@ -1,0 +1,53 @@
+<!DOCTYPE html>
+<!--
+HTML page that allows me to
+view information on video via tymeleaf,
+embellishment via the "style.css" class
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Login - Hospital Visits</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<header>
+    <div class="title">Hospital Visits Management</div>
+    <nav>
+        <a th:href="@{/home}">Home</a>
+        <a th:href="@{/visits}">Visits</a>
+        <a th:href="@{/register}">Register</a>
+    </nav>
+</header>
+
+<div class="form-container">
+
+    <h1>Sign in</h1>
+
+    <form th:action="@{/login}" method="post">
+
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input id="username" name="username" type="text" placeholder="Username">
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password" placeholder="Password">
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-book">Login</button>
+        </div>
+    </form>
+
+    <p style="margin-top: 15px;">
+        Don’t have an account?
+        <a th:href="@{/register}">Register here</a>.
+    </p>
+
+</div>
+
+</body>
+</html>

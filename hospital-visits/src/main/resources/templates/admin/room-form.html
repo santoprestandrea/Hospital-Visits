@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<!--
+HTML page that allows me to
+view information on video via tymeleaf,
+embellishment via the "style.css" class
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Room form</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="form-container">
+    <h1 th:text="${room.id == null} ? 'Create room' : 'Edit room'">Room form</h1>
+
+    <form th:action="@{/admin/rooms/save}" th:object="${room}" method="post">
+        <input type="hidden" th:field="*{id}"/>
+
+        <div class="form-group">
+            <label for="address">Address</label>
+            <input id="address" type="text" th:field="*{address}" required/>
+        </div>
+
+        <!-- MANY-TO-MANY: Room ↔ Doctor -->
+        <div class="form-group">
+            <label for="doctors">Doctors assigned to this room</label>
+            <select id="doctors" name="doctorCfs" multiple size="6">
+                <option th:each="d : ${doctors}"
+                        th:value="${d.cf}"
+                        th:text="${d.firstName + ' ' + d.surname + ' (' + (d.specialization != null ? d.specialization.name : '—') + ')'}"
+                        th:selected="${room.doctors.contains(d)}">
+
+                </option>
+
+            </select>
+            <div class="field-hint">Hold CTRL (or CMD on Mac) to select/unselect multiple doctors.</div>
+        </div>
+
+        <div class="form-actions">
+            <a th:href="@{/admin/rooms}" class="back-link">Cancel</a>
+            <button type="submit" class="btn">Save</button>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>

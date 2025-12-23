@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<!--
+HTML page that allows me to
+view information on video via tymeleaf,
+embellishment via the "style.css" class
+-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>Register - Hospital Visits</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<header>
+    <div class="title">Hospital Visits Management</div>
+    <nav>
+        <a th:href="@{/home}">Home</a>
+        <a th:href="@{/visits}">Visits</a>
+        <a th:href="@{/register}">Register</a>
+    </nav>
+</header>
+
+<div class="form-container">
+
+    <h1>Register as patient</h1>
+
+    <form th:action="@{/register}" th:object="${registrationForm}" method="post">
+
+        <div class="form-group">
+            <label for="username">Username</label>
+            <input id="username" type="text" th:field="*{username}" placeholder="Choose a username">
+            <div class="error" th:if="${#fields.hasErrors('username')}"
+                 th:errors="*{username}">Invalid username</div>
+            <div class="error" th:if="${usernameError}" th:text="${usernameError}"></div>
+        </div>
+
+
+        <div class="form-group">
+            <label for="email">Email</label>
+            <input id="email" type="email" th:field="*{email}" placeholder="Your email">
+            <div class="error" th:if="${#fields.hasErrors('email')}"
+                 th:errors="*{email}">Invalid email</div>
+            <div class="error" th:if="${emailError}" th:text="${emailError}"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input id="password" type="password" th:field="*{password}" placeholder="Choose a password">
+            <div class="error" th:if="${#fields.hasErrors('password')}"
+                 th:errors="*{password}">Invalid password</div>
+        </div>
+
+        <hr>
+
+        <div class="form-group">
+            <label for="cf">Fiscal code (CF)</label>
+            <input id="cf" type="text" th:field="*{cf}" placeholder="Fiscal code">
+            <div class="error" th:if="${#fields.hasErrors('cf')}"
+                 th:errors="*{cf}">Invalid fiscal code</div>
+            <div class="error" th:if="${cfError}" th:text="${cfError}"></div>
+        </div>
+
+        <div class="form-group">
+            <label for="firstName">First name</label>
+            <input id="firstName" type="text" th:field="*{firstName}" placeholder="First name">
+            <div class="error" th:if="${#fields.hasErrors('firstName')}"
+                 th:errors="*{firstName}">Invalid first name</div>
+        </div>
+
+        <div class="form-group">
+            <label for="surname">Surname</label>
+            <input id="surname" type="text" th:field="*{surname}" placeholder="Surname">
+            <div class="error" th:if="${#fields.hasErrors('surname')}"
+                 th:errors="*{surname}">Invalid surname</div>
+        </div>
+
+        <div class="form-group">
+            <label for="address">Address</label>
+            <input id="address" type="text" th:field="*{address}" placeholder="Address">
+            <div class="error" th:if="${#fields.hasErrors('address')}"
+                 th:errors="*{address}">Invalid address</div>
+        </div>
+
+        <div class="form-group">
+            <label for="birthDate">Birth date</label>
+            <input id="birthDate" type="date" th:field="*{birthDate}">
+            <div class="error" th:if="${#fields.hasErrors('birthDate')}"
+                 th:errors="*{birthDate}">Invalid birth date</div>
+        </div>
+
+        <div class="form-actions">
+            <button type="submit" class="btn btn-book">Register</button>
+        </div>
+    </form>
+
+</div>
+
+</body>
+</html>

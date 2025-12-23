@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<!--
+HTML page that allows me to
+view information on video via tymeleaf,
+embellishment via the "style.css" class
+-->
+<html xmlns:th="http://www.thymeleaf.org"
+      xmlns:sec="https://www.thymeleaf.org/thymeleaf-extras-springsecurity6" lang="">
+<head>
+    <meta charset="UTF-8">
+    <title>Hospital Visits - Visits</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<header>
+    <div class="title">Hospital Visits Management</div>
+    <nav>
+        <a th:href="@{/home}">Home</a>
+        <a th:href="@{/visits}">Visits</a>
+        <a th:href="@{/visits/my}" sec:authorize="hasRole('USER')">My visits</a>
+    </nav>
+</header>
+
+<div class="container">
+
+    <h1>Visits list</h1>
+
+    <div class="user-info">
+        Logged in as:
+        <span sec:authentication="name"></span>
+        <span class="badge badge-user" sec:authorize="hasRole('USER')">USER</span>
+        <span class="badge badge-admin" sec:authorize="hasRole('ADMIN')">ADMIN</span>
+    </div>
+
+    <!-- MESSAGGI DI SUCCESSO / ERRORE -->
+    <div th:if="${message}" class="alert-success" th:text="${message}"></div>
+    <div th:if="${errorMessage}" class="alert-error" th:text="${errorMessage}"></div>
+
+    <table>
+        <thead>
+        <tr>
+            <th>Id</th>
+            <th>Date</th>
+            <th>Type</th>
+            <th>Doctors</th>
+            <th>Patients</th>
+            <th>Actions</th>
+        </tr>
+        </thead>
+        <tbody>
+        <tr th:each="visit : ${visits}">
+
+            <td th:text="${visit.id}">1</td>
+
+            <td th:text="${visit.date}">2025-01-01</td>
+
+
+            <td th:text="${visit.visitType != null ? visit.visitType.name : '—'}">
+                Visit type
+            </td>
+
+            <td>
+                <ul>
+                    <li th:each="doc : ${visit.doctors}"
+                        th:text="${doc.firstName + ' ' + doc.surname}">
+                        Doctor Name
+                    </li>
+                    <li th:if="${#lists.isEmpty(visit.doctors)}">No doctors assigned</li>
+                </ul>
+            </td>
+
+            <td>
+                <ul>
+                    <li th:each="pat : ${visit.patients}"
+                        th:text="${pat.firstName + ' ' + pat.surname}">
+                        Patient Name
+                    </li>
+                    <li th:if="${#lists.isEmpty(visit.patients)}">No patients booked</li>
+                </ul>
+            </td>
+
+            <td>
+                <div class="actions">
+
+
+                    <form th:action="@{'/visits/' + ${visit.id} + '/book'}"
+                          method="post"
+                          sec:authorize="hasRole('USER')">
+                        <button type="submit" class="btn btn-book">
+                            Book
+                        </button>
+                    </form>
+
+
+                    <a th:href="@{/admin/visits}" class="btn btn-admin"
+                       sec:authorize="hasRole('ADMIN')">
+                        Admin area
+                    </a>
+
+                </div>
+            </td>
+        </tr>
+        </tbody>
+    </table>
+
+    <div class="logout-button">
+        <form th:action="@{/logout}" method="post">
+            <button type="submit">Logout</button>
+        </form>
+    </div>
+
+</div>
+
+</body>
+</html>

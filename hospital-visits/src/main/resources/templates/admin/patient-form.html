@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<!--
+HTML page that allows me to
+view information on video via tymeleaf,
+embellishment via the "style.css" class
+-->
+<head>
+    <title>Patient form</title>
+    <link rel="stylesheet" th:href="@{/css/style.css}">
+</head>
+<body>
+
+<div class="form-container">
+    <h1 th:text="${patient.cf == null} ? 'Create patient' : 'Edit patient'">Patient form</h1>
+
+    <form th:action="@{/admin/patients/save}" th:object="${patient}" method="post">
+
+        <div class="form-group">
+            <label for="cf">CF</label>
+            <input id="cf" type="text" th:field="*{cf}" th:readonly="${patient.cf != null}" required/>
+        </div>
+
+        <div class="form-group">
+            <label for="firstName">Name</label>
+            <input id="firstName" type="text" th:field="*{firstName}" required/>
+        </div>
+
+        <div class="form-group">
+            <label for="surname">Surname</label>
+            <input id="surname" type="text" th:field="*{surname}" required/>
+        </div>
+
+        <div class="form-group">
+            <label for="address">Address</label>
+            <input id="address" type="text" th:field="*{address}" required/>
+        </div>
+
+        <div class="form-group">
+            <label for="birthDate">Birth date</label>
+            <input id="birthDate" type="date" th:field="*{birthDate}" required/>
+        </div>
+
+        <!-- MANY-TO-MANY: Patient ↔ Visit -->
+        <div class="form-group">
+            <label for="visits">Booked visits</label>
+            <select id="visits" name="visitCodes" multiple size="6">
+                <option th:each="v : ${visits}"
+                        th:value="${v.id}"
+                        th:text="${v.date + ' - ' + v.visitType.name}"
+                        th:selected="${patient.bookedVisits.contains(v)}">
+
+                </option>
+
+            </select>
+            <div class="field-hint">
+                Hold CTRL (or CMD on Mac) to select or unselect multiple visits.
+            </div>
+        </div>
+
+        <div class="form-actions">
+            <a th:href="@{/admin/patients}" class="back-link">Cancel</a>
+            <button type="submit" class="btn">Save</button>
+        </div>
+    </form>
+</div>
+
+</body>
+</html>
