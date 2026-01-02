@@ -307,6 +307,33 @@ src/main/resources/
 
 ---
 
+## Environment Variables
+This project **does not store secrers in the repository**.
+Configure secrets using environment variables.
+
+### 1) Create your local `.env`
+1. Copy `example.env` to `.env`
+2. Replace placeholders with local values
+
+> The `.env` file is listed in `.gitignore` and must not be commited
+
+### 2) Variables used
+- `DB_URL`=jdbc=postgresql://localhost:5432/hospital_visits_db
+- `DB_USERNAME`
+- `DB_PASSWORD`
+
+# token JWT:
+
+- `JWT_SECRET` (a long and randomic secret)
+- `JWT_EXPIRATION` (milliseconds, `360000` for 1 hour)
+
+Spring Boot reads them from the environment and maps them in `application.properties`.
+
+## Run Locally (IntelliJ)
+1. Open **Run -> Edit Configurations...**
+2. Add the environment variables
+3. Run the apllication
+
 ## Author
 
 **Prestandrea Santo**  
