@@ -248,7 +248,7 @@ HospitalDatabase.sql
 
 3. Configure database credentials in:
 ```
-src/main/resources/application.properties
+root/example.env  -> with credentials of your pgAdmin application 
 ```
 
 4. Build the project:
@@ -259,11 +259,7 @@ mvn clean install
 ---
 
 ## Running the Application
-
-### Run via Maven
-```bash
-mvn spring-boot:run
-```
+Run the application across the main file C:\Users\santo\Dropbox\PC\Downloads\Hospital-Visits-main\Hospital-Visits-main\hospital-visits\src\main\java\com\hospital\hospital_visit\HospitalVisitsApplication.java
 
 ### Access URLs
 
